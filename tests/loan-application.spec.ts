@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import {LoanPage} from "../pages/LoanPage";
 
-let loan: LoanPage
+let loan: LoanPage;
 
 test.beforeEach(async ({ page }) => {
     loan = new LoanPage(page);
@@ -9,7 +9,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 
-    test('verify application fields are in place', async ({}) => {
+    test('verify application fields are in place', async ({ page }) => {
         await expect(loan.amountField).toBeVisible();
         await expect(loan.amountSlider).toBeVisible();
         await expect(loan.periodField).toBeVisible();
@@ -17,14 +17,14 @@ test.beforeEach(async ({ page }) => {
         await expect(loan.applyButton).toBeVisible();
     });
 
-    test('verify scrolling effect for loan', async ({}) => {
+    test('verify scrolling effect for loan', async ({ page }) => {
         await loan.scrollToImage1()
         await expect(loan.amountField).toBeInViewport()
         await loan.scrollToImage2()
         await expect(loan.amountField).toBeInViewport()
     });
 
-    test('verify loan application e2e', async ({}) => {
+    test('verify loan application e2e', async ({ page }) => {
         await loan.applyForLoan()
         await expect(loan.loginContinueButton).toBeDisabled()
 
@@ -38,7 +38,7 @@ test.beforeEach(async ({ page }) => {
         await expect(loan.amountField).toBeInViewport()
     });
 
-    test('verify validation error', async ({}) => {
+    test('verify validation error', async ({ page }) => {
         await loan.fillAmount('0')
         await expect(loan.error).toBeVisible()
 
